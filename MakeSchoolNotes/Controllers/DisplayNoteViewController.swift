@@ -31,7 +31,7 @@ class DisplayNoteViewController: UIViewController {
   }
 
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    let destinationViewController = segue.destinationViewController as! ListNotesTableViewController
+    let listNotesTableViewController = segue.destinationViewController as! ListNotesTableViewController
     if segue.identifier == "Save" {
       if let note = note {
         let newNote = Note()
@@ -45,7 +45,7 @@ class DisplayNoteViewController: UIViewController {
         note.modificationTime = NSDate()
         RealmHelper.addNote(note)
       }
-      destinationViewController.notes = RealmHelper.retrieveNotes()
+      listNotesTableViewController.notes = RealmHelper.retrieveNotes()
     }
   }
   
