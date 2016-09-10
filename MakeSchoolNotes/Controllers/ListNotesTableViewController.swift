@@ -28,7 +28,7 @@ class ListNotesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "listNotesTableViewCell", for: indexPath) as! ListNotesTableViewCell
-        let row = (indexPath as NSIndexPath).row
+        let row = indexPath.row
         let note = notes[row]
         cell.noteTitleLabel.text = note.title
         cell.noteModificationTimeLabel.text = note.modificationTime?.convertToString()
@@ -40,7 +40,7 @@ class ListNotesTableViewController: UITableViewController {
             if identifier == "displayNote" {
                 print("Table view cell tapped")
                 let indexPath = tableView.indexPathForSelectedRow!
-                let note = notes[(indexPath as NSIndexPath).row]
+                let note = notes[indexPath.row]
                 let destination = segue.destination as! DisplayNoteViewController
                 destination.note = note
             } else if identifier == "addNote" {
@@ -54,7 +54,7 @@ class ListNotesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        CoreDataHelper.deleteNote(notes[(indexPath as NSIndexPath).row])
+        CoreDataHelper.delete(note: notes[indexPath.row])
         notes = CoreDataHelper.retrieveNotes()
     }
     
