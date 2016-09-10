@@ -7,46 +7,44 @@
 //
 
 import UIKit
-import RealmSwift
+
 
 class DisplayNoteViewController: UIViewController {
-
-  var note: Note?
-
-  @IBOutlet weak var noteTitleTextField: UITextField!
-  @IBOutlet weak var noteContentTextView: UITextView!
-  
-  override func viewWillAppear(animated: Bool) {
-    if let note = note {
-      noteTitleTextField.text = note.title
-      noteContentTextView.text = note.content
-    } else {
-      noteTitleTextField.text = ""
-      noteContentTextView.text = ""
+    
+    var note: Note?
+    
+    @IBOutlet weak var noteTitleTextField: UITextField!
+    @IBOutlet weak var noteContentTextView: UITextView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let note = note {
+            noteTitleTextField.text = note.title
+            noteContentTextView.text = note.content
+        } else {
+            noteTitleTextField.text = ""
+            noteContentTextView.text = ""
+        }
     }
-  }
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
-
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    let listNotesTableViewController = segue.destinationViewController as! ListNotesTableViewController
-    if segue.identifier == "Save" {
-      if let note = note {
-        let newNote = Note()
-        newNote.title = noteTitleTextField.text ?? ""
-        newNote.content = noteContentTextView.text ?? ""
-        RealmHelper.updateNote(note, newNote: newNote)
-      } else {
-        let note = Note()
-        note.title = noteTitleTextField.text ?? ""
-        note.content = noteContentTextView.text ?? ""
-        note.modificationTime = NSDate()
-        RealmHelper.addNote(note)
-      }
-      listNotesTableViewController.notes = RealmHelper.retrieveNotes()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
-  }
-  
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Save" {
+            if let note = note {
+                note.title = noteTitleTextField.text ?? ""
+                note.content = noteContentTextView.text ?? ""
+                note.modificationTime = Date()
+                CoreDataHelper.saveNote()
+            } else {
+                let note = Note()
+                note.title = noteTitleTextField.text ?? ""
+                note.content = noteContentTextView.text ?? ""
+                note.modificationTime = Date()
+                CoreDataHelper.saveNote()
+            }
+        }
+    }
+    
 }
