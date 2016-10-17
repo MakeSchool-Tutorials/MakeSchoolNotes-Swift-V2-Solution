@@ -9,8 +9,11 @@
 import UIKit
 import CoreData
 
-
 public class Note: NSManagedObject {
+    @NSManaged public var title: String?
+    @NSManaged public var content: String?
+    @NSManaged public var modificationTime: Date?
+    
     convenience init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let persistentContainer = appDelegate.persistentContainer

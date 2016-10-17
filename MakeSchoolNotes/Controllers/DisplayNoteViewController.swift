@@ -32,18 +32,11 @@ class DisplayNoteViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Save" {
-            if let note = note {
-                note.title = noteTitleTextField.text ?? ""
-                note.content = noteContentTextView.text ?? ""
-                note.modificationTime = Date()
-                CoreDataHelper.saveNote()
-            } else {
-                let note = Note()
-                note.title = noteTitleTextField.text ?? ""
-                note.content = noteContentTextView.text ?? ""
-                note.modificationTime = Date()
-                CoreDataHelper.saveNote()
-            }
+            let note = self.note ?? Note()
+            note.title = noteTitleTextField.text ?? ""
+            note.content = noteContentTextView.text ?? ""
+            note.modificationTime = Date()
+            CoreDataHelper.saveNote()
         }
     }
     
